@@ -24,9 +24,17 @@ h3 {
 }
 
 @keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
 }
 
 /* Link styling - made softer and less stiff */
@@ -269,6 +277,17 @@ body:has(#belum)>button {
 }
 
 @media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  a {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    box-sizing: border-box;
+  }
+
   #products {
     grid-template-columns: 1fr;
   }
