@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cek Pesanan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>📦 Status Pesanan</h1>
+
+    <h2>⏳ Belum Dibayar</h2>
+    <div id="belum"></div>
+
+    <h2>📦 Sedang Dikirim</h2>
+    <div id="kirim"></div>
+
+    <h2>✅ Sudah Sampai</h2>
+    <div id="selesai"></div>
+
+  <div id="result"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="cek.js"></script>
+
+  <button onclick="window.location.href='index.html'">
+    Kembali ke Toko
+  </button>
+
+</body>
+</html>
