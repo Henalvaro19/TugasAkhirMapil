@@ -5,12 +5,25 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 // 🔌 Koneksi ke Supabase
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
+function showToast(message, isError = false) {
+  let toast = document.createElement("div");
+  toast.className = "toast";
+  if (isError) toast.style.background = "#d9534f";
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+
 async function checkout() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   let payment = document.getElementById("payment").value;
 
   if (cart.length === 0) {
-    alert("Keranjang kosong!");
+    showToast("Keranjang kosong!", true);
     return;
   }
 
@@ -30,14 +43,16 @@ async function checkout() {
     ]);
 
   if (error) {
-    alert("Gagal checkout!");
+    showToast("Gagal checkout!", true);
     console.error(error);
     return;
   }
 
-  alert("Pesanan dibuat! Silakan lakukan pembayaran.");
+  showToast("Pesanan dibuat! Silakan lakukan pembayaran.");
   localStorage.removeItem("cart");
-  window.location.href = "orders.html";
+  setTimeout(() => {
+    window.location.href = "orders.html";
+  }, 1500);
 }
 
 

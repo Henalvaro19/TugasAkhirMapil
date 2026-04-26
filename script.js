@@ -5,6 +5,27 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 // 🔌 Koneksi ke Supabase
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
+function showToast(message) {
+  let toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
+function showSkeleton() {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 6; i++) {
+    container.innerHTML += `<div class="card skeleton"></div>`;
+  }
+}
+
 // 🛒 Update jumlah cart
 function updateCartCount() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -19,23 +40,33 @@ function addToCart(id, name, price) {
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  alert("Produk ditambahkan ke keranjang!");
+  showToast("Produk ditambahkan ke keranjang!");
   updateCartCount();
 }
 
 // 📦 Ambil produk dari database
+let page = 0;
+const limit = 6;
+
 async function getProducts() {
+  showSkeleton();
+
+  let from = page * limit;
+  let to = from + limit - 1;
+
   let { data, error } = await client
     .from("products")
-    .select("*");
+    .select("*")
+    .range(from, to);
 
   if (error) {
-    console.error("ERROR:", error);
+    console.error(error);
     return;
   }
 
   const container = document.getElementById("products");
-  container.innerHTML = "";
+
+  if (page === 0) container.innerHTML = "";
 
   data.forEach(product => {
     container.innerHTML += `

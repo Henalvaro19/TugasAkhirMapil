@@ -16,6 +16,19 @@ h3 {
   margin: 15px 0;
 }
 
+.skeleton {
+  background: #ddd;
+  height: 200px;
+  border-radius: 10px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
 /* Link styling - made softer and less stiff */
 a {
   display: inline-block;
@@ -140,6 +153,30 @@ button:hover {
 
 button:active {
   transform: translateY(0);
+}
+
+/* Toast Notification styling */
+.toast {
+  position: fixed;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 15px;
+  font-weight: bold;
+  transition: bottom 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease;
+  opacity: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toast.show {
+  bottom: 30px;
+  opacity: 1;
 }
 
 /* Horizontal Layout for Status Pesanan (cek.html) without touching HTML */
