@@ -1,8 +1,6 @@
 const supabaseUrl = "https://suzgsimnflhiwaqlhloe.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1emdzaW1uZmxoaXdhcWxobG9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzMxMzUsImV4cCI6MjA5Mjc0OTEzNX0.AKK1sV5ghmuBtB3GIZKRFBzM_hhLYjlkbkyMUlHMChE";
 
-
-// 🔌 Koneksi ke Supabase
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 function showToast(message, isError = false) {
@@ -64,28 +62,55 @@ function loadCart() {
   container.innerHTML = "";
   let total = 0;
 
-  cart.forEach((item, index) => {
+  let grouped = {};
+  cart.forEach(item => {
     total += item.price;
+    if (!grouped[item.id]) {
+      grouped[item.id] = { ...item, qty: 1 };
+    } else {
+      grouped[item.id].qty++;
+    }
+  });
 
+  Object.values(grouped).forEach(item => {
     container.innerHTML += `
       <div class="card">
         <h3>${item.name}</h3>
-        <p>Rp ${item.price}</p>
-        <button onclick="removeItem(${index})">❌ Hapus</button>
+        <p>Rp ${(item.price * item.qty).toLocaleString('id-ID')}</p>
+        <div class="qty-control">
+          <button onclick="decreaseItem(${item.id})">-</button>
+          <span>${item.qty}</span>
+          <button onclick="increaseItem(${item.id}, '${item.name}', ${item.price})">+</button>
+          <button class="btn-delete" onclick="removeAllItems(${item.id})">❌</button>
+        </div>
       </div>
     `;
   });
 
-  totalText.innerText = "Total: Rp " + total;
+  totalText.innerText = "Total: Rp " + total.toLocaleString('id-ID');
 }
 
-function removeItem(index) {
+function increaseItem(id, name, price) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  cart.splice(index, 1);
-
+  cart.push({ id, name, price });
   localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
+}
 
+function decreaseItem(id) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let index = cart.findIndex(item => item.id == id);
+  if (index !== -1) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+}
+
+function removeAllItems(id) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart = cart.filter(item => item.id != id);
+  localStorage.setItem("cart", JSON.stringify(cart));
   loadCart();
 }
 

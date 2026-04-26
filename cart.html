@@ -1,38 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keranjang</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-  <h1>🛒 Keranjang Belanja</h1>
-
+  <h1>Keranjang Belanja</h1>
   <div id="cart-items"></div>
-
   <h2 id="total">Total: Rp 0</h2>
-
   <h3>Pilih Metode Pembayaran:</h3>
-
   <select id="payment">
     <option value="Transfer Bank">Transfer Bank</option>
     <option value="COD">COD (Bayar di Tempat)</option>
     <option value="E-Wallet">E-Wallet</option>
   </select>
-
   <br><br>
-
-  <button onclick="checkout()">✅ Checkout</button>
-
-  <a href="index.html">⬅️ Kembali ke toko</a>
-
+  <button onclick="checkout()">Checkout</button>
+  <a href="index.html">⬅Kembali ke toko</a>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="cart.js"></script>
-
 </body>
-
 </html>

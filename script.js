@@ -1,8 +1,6 @@
 const supabaseUrl = "https://suzgsimnflhiwaqlhloe.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1emdzaW1uZmxoaXdhcWxobG9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNzMxMzUsImV4cCI6MjA5Mjc0OTEzNX0.AKK1sV5ghmuBtB3GIZKRFBzM_hhLYjlkbkyMUlHMChE";
 
-
-// 🔌 Koneksi ke Supabase
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
 function showToast(message) {
@@ -26,13 +24,11 @@ function showSkeleton() {
   }
 }
 
-// 🛒 Update jumlah cart
 function updateCartCount() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   document.getElementById("cart-count").innerText = "Keranjang: " + cart.length;
 }
 
-// ➕ Tambah ke cart
 function addToCart(id, name, price) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -44,7 +40,6 @@ function addToCart(id, name, price) {
   updateCartCount();
 }
 
-// 📦 Ambil produk dari database
 let page = 0;
 const limit = 6;
 
@@ -73,7 +68,7 @@ async function getProducts() {
       <div class="card">
         <img src="${product.image_url}" />
         <h3>${product.name}</h3>
-        <p>Rp ${product.price}</p>
+        <p>Rp ${product.price.toLocaleString('id-ID')}</p>
         <p>${product.description}</p>
         <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">
           🛒 Tambah ke Keranjang
@@ -83,6 +78,5 @@ async function getProducts() {
   });
 }
 
-// 🚀 Jalankan
 getProducts();
 updateCartCount();
